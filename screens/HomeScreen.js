@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -15,6 +15,11 @@ const HomeScreen = ({ navigation }) => {
   const battery = useBattery();
   const location = useLocation();
   const network = useNetwork();
+
+  useEffect(() => {
+    console.log('Motion data updated:', motion);
+  }, [motion]);
+
   console.log('device motion', motion);
 
   return (
@@ -33,18 +38,11 @@ const HomeScreen = ({ navigation }) => {
 
         <Text>🌐 Network: {network === null ? 'Checking...' : network ? 'Online' : 'Offline'}</Text>
         <Text>
-  🎯 Device Motion: 
-  {(() => {
-    try {
-      return motion && motion.rotation
-        ? `Alpha: ${motion.rotation.alpha.toFixed(2)}, Beta: ${motion.rotation.beta.toFixed(2)}, Gamma: ${motion.rotation.gamma.toFixed(2)}`
-        : 'No motion data available';
-    } catch (error) {
-      console.error('Error rendering motion data:', error);
-      return 'Error displaying motion data';
-    }
-  })()}
-</Text>
+          🎯 Device Motion: 
+          {motion
+            ? `Alpha: ${motion.alpha.toFixed(2)}, Beta: ${motion.beta.toFixed(2)}, Gamma: ${motion.gamma.toFixed(2)}`
+            : 'No motion data available'}
+        </Text>
         <Text>🔋 Battery: {battery ? `${(battery * 100).toFixed(0)}%` : 'Loading...'}</Text>
         <Text>
           📈 Accelerometer: X: {accel.x.toFixed(2)} Y: {accel.y.toFixed(2)} Z: {accel.z.toFixed(2)}
