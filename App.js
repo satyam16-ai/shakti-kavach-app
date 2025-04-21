@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Image } from 'react-native';
 import { requestAllPermissions } from './utils/permissions';
 
 // Sensor Hooks
@@ -11,6 +11,7 @@ import useDeviceMotion from './services/sensors/useDeviceMotion';
 
 export default function App() {
   const [permissions, setPermissions] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // for splash screen
 
   const location = useLocation();
   const battery = useBattery();
@@ -25,8 +26,30 @@ export default function App() {
     }
 
     initPermissions();
+
+    // Splash timer
+    const splashTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2500); // show splash for 2.5 seconds
+
+    return () => clearTimeout(splashTimer);
   }, []);
 
+  // Splash screen UI
+  if (isLoading) {
+    return (
+      <View style={styles.splashContainer}>
+        <Image
+          source={require('./assets/logo.png')} // 🛑 replace with your logo path
+          style={styles.splashLogo}
+        />
+        <Text style={styles.splashText}>Shakti Kavach</Text>
+        <ActivityIndicator size="large" color="#dc3545" />
+      </View>
+    );
+  }
+
+  // Main App UI
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>🚨 Shakti Kavach App</Text>
@@ -68,6 +91,24 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  splashContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  splashLogo: {
+    width: 150,
+    height: 150,
+    marginBottom: 20,
+    resizeMode: 'contain',
+  },
+  splashText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#dc3545',
+    marginBottom: 10,
+  },
   container: {
     flexGrow: 1,
     padding: 20,
