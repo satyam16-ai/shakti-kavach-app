@@ -26,6 +26,8 @@ const HomeScreen = ({ navigation }) => {
   //   gamma: motion.gamma.toFixed(2),
   // });
   // console.log(battery);
+  // console.log(location);
+  
   
   
     

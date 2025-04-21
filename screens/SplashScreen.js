@@ -6,7 +6,7 @@ export default function SplashScreen({ navigation }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.replace('Home'); // Change this to your actual first screen
-    }, 2500); // 2.5 seconds delay
+    }, 2000); // 2.5 seconds delay
 
     return () => clearTimeout(timer);
   }, []);
@@ -15,7 +15,7 @@ export default function SplashScreen({ navigation }) {
     <View style={styles.container}>
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       <Text style={styles.title}>Shakti Kavach</Text>
-      <Text style={styles.tagline}>Your Personal Safety Guardian</Text>
+      <Text style={styles.title}>Your Personal Safety Guardian</Text>
     </View>
   );
 }
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   tagline: {
     fontSize: 16,
-    color: '#fff',
+    color: '#000',
     marginTop: 8,
     opacity: 0.8,
   },
