@@ -10,7 +10,7 @@ import useAccelerometer from './services/sensors/useAccelerometer';
 import useDeviceMotion from './services/sensors/useDeviceMotion';
 
 // HomeScreen
-import HomeScreen from './screens/HomeScreen'; // 🛑 Make sure the path is correct
+import HomeScreen from './screens/HomeScreen'; 
 
 export default function App() {
   const [permissions, setPermissions] = useState(null);

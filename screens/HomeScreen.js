@@ -16,11 +16,16 @@ const HomeScreen = ({ navigation }) => {
   const location = useLocation();
   const network = useNetwork();
 
-  useEffect(() => {
-    console.log('Motion data updated:', motion);
-  }, [motion]);
+  // useEffect(() => {
+  //   console.log('Motion data updated:', motion);
+  // }, [motion]);
 
-  console.log('device motion', motion);
+  console.log('device motion',{
+    alpha: motion.alpha.toFixed(2),
+    beta: motion.beta.toFixed(2),
+    gamma: motion.gamma.toFixed(2),
+  });
+    
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
