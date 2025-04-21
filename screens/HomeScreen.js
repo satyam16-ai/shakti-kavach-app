@@ -20,11 +20,14 @@ const HomeScreen = ({ navigation }) => {
   //   console.log('Motion data updated:', motion);
   // }, [motion]);
 
-  console.log('device motion',{
-    alpha: motion.alpha.toFixed(2),
-    beta: motion.beta.toFixed(2),
-    gamma: motion.gamma.toFixed(2),
-  });
+  // console.log('device motion',{
+  //   alpha: motion.alpha.toFixed(2),
+  //   beta: motion.beta.toFixed(2),
+  //   gamma: motion.gamma.toFixed(2),
+  // });
+  // console.log(battery);
+  
+  
     
 
   return (

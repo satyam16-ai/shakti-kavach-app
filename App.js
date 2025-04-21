@@ -8,9 +8,10 @@ import useBattery from './services/sensors/useBattery';
 import useNetwork from './services/sensors/useNetwork';
 import useAccelerometer from './services/sensors/useAccelerometer';
 import useDeviceMotion from './services/sensors/useDeviceMotion';
+import useShakeDetection from './services/sensors/useShakeDetection';
 
 // HomeScreen
-import HomeScreen from './screens/HomeScreen'; 
+import HomeScreen from './screens/HomeScreen';
 
 export default function App() {
   const [permissions, setPermissions] = useState(null);
@@ -22,6 +23,12 @@ export default function App() {
   const accel = useAccelerometer();
   const motion = useDeviceMotion();
 
+  // Move useShakeDetection inside the functional component
+  useShakeDetection(() => {
+    alert('Shake detected! 🚨 Triggering emergency action...');
+    // console.log('Shake detected! 🚨 Triggering emergency action...');
+  });
+  
   useEffect(() => {
     async function initPermissions() {
       const result = await requestAllPermissions();
