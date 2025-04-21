@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Image } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Image } from 'react-native';
 import { requestAllPermissions } from './utils/permissions';
 
 // Sensor Hooks
@@ -8,6 +8,9 @@ import useBattery from './services/sensors/useBattery';
 import useNetwork from './services/sensors/useNetwork';
 import useAccelerometer from './services/sensors/useAccelerometer';
 import useDeviceMotion from './services/sensors/useDeviceMotion';
+
+// HomeScreen
+import HomeScreen from './screens/HomeScreen'; // 🛑 Make sure the path is correct
 
 export default function App() {
   const [permissions, setPermissions] = useState(null);
@@ -27,20 +30,18 @@ export default function App() {
 
     initPermissions();
 
-    // Splash timer
     const splashTimer = setTimeout(() => {
       setIsLoading(false);
-    }, 2500); // show splash for 2.5 seconds
+    }, 2500);
 
     return () => clearTimeout(splashTimer);
   }, []);
 
-  // Splash screen UI
   if (isLoading) {
     return (
       <View style={styles.splashContainer}>
         <Image
-          source={require('./assets/logo.png')} // 🛑 replace with your logo path
+          source={require('./assets/logo.png')} // ✅ Replace with your logo
           style={styles.splashLogo}
         />
         <Text style={styles.splashText}>Shakti Kavach</Text>
@@ -49,44 +50,15 @@ export default function App() {
     );
   }
 
-  // Main App UI
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>🚨 Shakti Kavach App</Text>
-
-      {permissions ? (
-        <>
-          <Text style={styles.heading}>🔐 Permissions:</Text>
-          <Text>📍 Location: {permissions.locationGranted ? 'Granted' : 'Denied'}</Text>
-          <Text>🔔 Notifications: {permissions.notificationGranted ? 'Granted' : 'Denied'}</Text>
-          <Text>🔋 Battery Level: {Math.round(permissions.batteryLevel * 100)}%</Text>
-        </>
-      ) : (
-        <Text>Requesting Permissions...</Text>
-      )}
-
-      <Text style={styles.heading}>📡 Sensors:</Text>
-
-      <Text>🌐 Network: {network?.isConnected ? 'Online' : 'Offline'}</Text>
-
-      {location?.coords && (
-        <Text>
-          📍 Location: {location.coords.latitude?.toFixed(4)}, {location.coords.longitude?.toFixed(4)}
-        </Text>
-      )}
-
-      {accel && (
-        <Text>
-          📈 Accelerometer: x={accel.x?.toFixed(2)} y={accel.y?.toFixed(2)} z={accel.z?.toFixed(2)}
-        </Text>
-      )}
-
-      {motion && (
-        <Text>
-          📱 Device Motion: alpha={motion.alpha?.toFixed(2) || '0.00'} beta={motion.beta?.toFixed(2) || '0.00'} gamma={motion.gamma?.toFixed(2) || '0.00'}
-        </Text>
-      )}
-    </ScrollView>
+    <HomeScreen
+      permissions={permissions}
+      location={location}
+      battery={battery}
+      network={network}
+      accel={accel}
+      motion={motion}
+    />
   );
 }
 
@@ -108,22 +80,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#dc3545',
     marginBottom: 10,
-  },
-  container: {
-    flexGrow: 1,
-    padding: 20,
-    backgroundColor: '#f8f9fa',
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    alignSelf: 'center',
-    color: '#dc3545',
-  },
-  heading: {
-    fontSize: 18,
-    marginTop: 20,
-    fontWeight: '600',
   },
 });
